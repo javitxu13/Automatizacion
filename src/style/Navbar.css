@@ -1,0 +1,55 @@
+/* Navbar.css Mejorado */
+
+.navbar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 10%; /* Anchura inicial del navbar */
+    height: 100%;
+    background-color: #ff6666; /* Ajusta el color de fondo según sea necesario */
+    overflow-x: hidden; /* Evita el desplazamiento horizontal */
+    transition: width 0.5s ease; /* Transición suave para la anchura */
+}
+
+.navbar:hover {
+    width: 200px; /* Nueva anchura al pasar el cursor */
+}
+
+.navbar .nav-menu {
+    display: flex;
+    flex-direction: column; /* Alinea los enlaces verticalmente */
+    align-items: center; /* Centra los enlaces horizontalmente */
+    height: 100%;
+    padding-top: 20px; /* Espaciado en la parte superior */
+}
+
+.navbar .nav-link {
+    display: flex;
+    flex-direction: column; /* Alinea ícono y texto verticalmente */
+    align-items: center; /* Centra contenido horizontalmente */
+    padding: 10px;
+    color: white; /* Ajusta el color del texto según sea necesario */
+    text-decoration: none;
+    transition: transform 0.3s ease, color 0.3s ease; /* Transición suave para transform y color */
+}
+
+.navbar .nav-link:hover {
+    transform: scale(1.2); /* Efecto de escala al pasar el cursor */
+}
+
+.navbar .nav-link .nav-text {
+    display: none; /* Oculta el texto inicialmente */
+    margin-top: 5px; /* Espacio entre el texto y el ícono */
+}
+
+.navbar .nav-link:hover .nav-text {
+    display: block; /* Muestra el texto al pasar el cursor sobre un ícono */
+}
+
+
+
+/* Estilos adicionales para íconos específicos si es necesario */
+ .icon-home, .icon-automation, .icon-processes, .icon-config, .icon-contact {
+    font-size: 23px;
+    margin: 10px;
+ } 

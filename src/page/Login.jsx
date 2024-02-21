@@ -16,7 +16,7 @@ const Login = () => {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-        navigate("/");
+        navigate("/dashboard");
         console.log(user);
       })
       .catch((error) => {
@@ -32,7 +32,7 @@ const Login = () => {
     signInWithPopup(auth, provider)
       .then((result) => {
         // This gives you a Google Access Token. You can use it to access the Google API.
-        navigate("/");
+        navigate("/dashboard");
       })
       .catch((error) => {
         // Handle Errors here.
@@ -85,9 +85,8 @@ const Login = () => {
               
             </div>
           </form>
-  
           <p className='signup-prompt text-sm text-white text-center'>
-            No account yet? <NavLink to='/signup' className="signup-link">Sign up</NavLink>
+            No account yet? <NavLink to='/' className="signup-link">Sign up</NavLink>
           </p>
         </div>
       </section>
