@@ -8,14 +8,24 @@ import { GoogleAuthProvider } from "firebase/auth";
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
+// Your web app's Firebase configuration
+
 const firebaseConfig = {
-  apiKey: "AIzaSyCJEgNFlWR_8x2LA5j0vcqfr02I5f581j4",
-  authDomain: "pruebas-login-e3266.firebaseapp.com",
-  projectId: "pruebas-login-e3266",
-  storageBucket: "pruebas-login-e3266.appspot.com",
-  messagingSenderId: "1023110451329",
-  appId: "1:1023110451329:web:cba226ab5d5966cfe8bd80",
+
+  apiKey: "AIzaSyBvlr7YHYdjaXhzhFv6b5-Bv11iKlSiqB4",
+
+  authDomain: "pruebas-c10e5.firebaseapp.com",
+
+  projectId: "pruebas-c10e5",
+
+  storageBucket: "pruebas-c10e5.appspot.com",
+
+  messagingSenderId: "927980982190",
+
+  appId: "1:927980982190:web:b3b6349ef4223d8345823f"
+
 };
+
 
 export const provider = new GoogleAuthProvider();
 

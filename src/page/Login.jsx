@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { auth, provider } from "./Firebase";
-
 import { NavLink, useNavigate } from "react-router-dom";
+import "../style/Login.css";
+import GoogleLogo from '../img/Google.png'; // Make sure the path is correct
 
 const Login = () => {
   const navigate = useNavigate();
@@ -43,49 +44,55 @@ const Login = () => {
 
   return (
     <>
-      <main>
-        <section>
-          <div>
-            <p> FocusApp </p>
-
-            <form>
-              <div>
-                <label htmlFor='email-address'>Email address</label>
-                <input
-                  id='email-address'
-                  name='email'
-                  type='email'
-                  required
-                  placeholder='Email address'
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </div>
-
-              <div>
-                <label htmlFor='password'>Password</label>
-                <input
-                  id='password'
-                  name='password'
-                  type='password'
-                  required
-                  placeholder='Password'
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </div>
-
-              <div>
-                <button onClick={onLogin}>Login</button>
-                <button onClick={onGoogleLogin}>Login with google</button>
-              </div>
-            </form>
-
-            <p className='text-sm text-white text-center'>
-              No account yet? <NavLink to='/signup'>Sign up</NavLink>
-            </p>
-          </div>
-        </section>
-      </main>
-    </>
+    <main className="main-container">
+      <section className="login-section">
+        <div className="login-container">
+          <p className="app-title"> FocusApp </p>
+  
+          <form className="login-form">
+            <div className="form-group">
+              <label htmlFor='email-address'>Email address</label>
+              <input
+                id='email-address'
+                name='email'
+                type='email'
+                required
+                placeholder='Email address'
+                onChange={(e) => setEmail(e.target.value)}
+                className="form-input"
+              />
+            </div>
+  
+            <div className="form-group">
+              <label htmlFor='password'>Password</label>
+              <input
+                id='password'
+                name='password'
+                type='password'
+                required
+                placeholder='Password'
+                onChange={(e) => setPassword(e.target.value)}
+                className="form-input"
+              />
+            </div>
+  
+            <div className="button-group">
+              <button onClick={onLogin} className="login-button">Login</button>
+              <button type="button" className="google-signup-button" onClick={onGoogleLogin}>
+            <img src={GoogleLogo} alt="Google" className="google-logo" />
+            Login con Google
+          </button>
+              
+            </div>
+          </form>
+  
+          <p className='signup-prompt text-sm text-white text-center'>
+            No account yet? <NavLink to='/signup' className="signup-link">Sign up</NavLink>
+          </p>
+        </div>
+      </section>
+    </main>
+  </>  
   );
 };
 

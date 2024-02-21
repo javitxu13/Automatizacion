@@ -1,0 +1,178 @@
+.container {
+    display: flex;
+    max-height: 100vh;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .brand-section {
+    background-color: #2C3E50; /* Holded's dark blue background */
+    color: #fff;
+    padding: 50px;
+    width: 40%; /* Adjust the width as necessary */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .brand-section h1 {
+    font-size: 2em; /* Adjust size as necessary */
+    margin-bottom: 0.5em;
+  }
+
+  .google-signup-button {
+    background-color: #ffffff;
+    border: 1px solid #d6d6d6;
+    padding: 10px 20px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+    font-size: 14px;
+    font-family: 'Roboto', sans-serif;
+    transition: box-shadow 0.2s ease-in-out;
+    width: 100%;
+    margin-bottom: 20px;
+    margin-top: 10px;
+  }
+  
+  .google-signup-button:hover {
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.596);
+    transition: 0.6s;
+  }
+  
+  .google-signup-button:focus {
+    outline: none;
+    border: solid 2px #c6c6c6;
+  }
+
+  .google-logo {
+    margin-right: 10px;
+    width: 18px; /* You can adjust the size as needed */
+  }
+
+
+  
+  .brand-section p {
+    font-size: 1em;
+    margin-bottom: 2em;
+  }
+  
+  .image-container {
+    margin-bottom: 2rem;
+  }
+  
+  .dashboard-image{
+    width: 90%;
+    margin-bottom: 1em; /* Space between images */
+    border-radius: 4px; /* If images have rounded corners */
+  }
+  
+  .language-selector {
+    margin-top: auto; /* Pushes the selector to the bottom */
+  }
+  
+  .language-selector label {
+    margin-right: 0.5em;
+  }
+  
+  .language-selector select {
+    background: #fff;
+    color: #333;
+    padding: 0.5em;
+    border: none;
+    border-radius: 4px;
+  }
+  
+  .signup-main {
+    width: 50%; /* Adjust the width as necessary */
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .signup-section {
+    width: 80%;
+    max-width: 400px;
+  }
+  
+  .signup-container {
+    width: 100%;
+  }
+  
+  .signup-title {
+    color: #333;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  
+  .input-group {
+    margin-bottom: 1rem;
+  }
+  
+  .input-label {
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  
+  .input-field {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  .signup-button {
+    background-color: #3498db; /* Blue background for the button */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 12px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 1rem;
+  }
+  
+  .signup-button:hover {
+    background-color: #2980b9; /* Slightly darker blue on hover */
+  }
+  
+  .signin-prompt {
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 0.9rem;
+  }
+  
+  .signin-link {
+    color: #3498db; /* Blue text for the link */
+    text-decoration: none;
+  }
+  
+  .signin-link:hover {
+    text-decoration: underline;
+  }
+  
+  /* Responsive design for smaller screens */
+  @media (max-width: 1024px) {
+    .container {
+      flex-direction: column;
+    }
+  
+    .brand-section,
+    .signup-main {
+      width: 100%;
+      padding: 20px;
+    }
+  
+    .signup-section {
+      width: 100%;
+    }
+  }
+  
+  /* Additional global styles and overrides as necessary */
+  
