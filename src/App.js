@@ -1,38 +1,44 @@
-import React, { useState, useEffect } from "react";
-import Signup from "./page/Signup";
-import Login from "./page/Login";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "./page/Firebase";
-import Dashboard from "./components/Dashboard";
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider, useAuth } from './page/AuthContext';
+import Signup from './page/Signup';
+import Login from './page/Login';
+import Dashboard from './components/Dashboard';
+import Procesos from './components/Procesos';
+
+const PrivateRoute = ({ children }) => {
+  const { user } = useAuth(); // useAuth hook from AuthContext
+
+  if (!user) {
+    return <Navigate to="/login" />;
+  }
+
+  return children;
+};
 
 function App() {
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        // User is signed in
-        setUser(user);
-      } else {
-        // User is not signed in
-        setUser(null);
-      }
-    });
-  }, []);
-
   return (
-    <Router>
-      <div>
-        <section>
-          <Routes>
-            <Route path='/' element={<Signup />} />
-            <Route path='/login' element={<Login />} />
-            <Route path='/dashboard' element={<Dashboard />} />
-          </Routes>
-        </section>
-      </div>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <div>
+          <section>
+            <Routes>
+              <Route path='/' element={<Signup />} />
+              <Route path='/login' element={<Login />} />
+              <Route path='/procesos' element={<Procesos />} />
+              <Route 
+                path='/dashboard' 
+                element={
+                  <PrivateRoute>
+                    <Dashboard />
+                  </PrivateRoute>
+                } 
+              />
+            </Routes>
+          </section>
+        </div>
+      </Router>
+    </AuthProvider>
   );
 }
 
