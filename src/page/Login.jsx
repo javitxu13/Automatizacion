@@ -1,38 +1,38 @@
 import React, { useState } from "react";
 import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { auth, provider } from "./Firebase";
-import { NavLink, useNavigate } from "react-router-dom";
 import "../style/Login.css";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useAuth } from '../page/AuthContext'; // Asegúrate de que la ruta sea correcta
 import GoogleLogo from '../img/Google.png'; // Make sure the path is correct
 
 const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { setUser } = useAuth();
 
   const onLogin = (e) => {
     e.preventDefault();
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        navigate("/dashboard");
-        console.log(user);
+        navigate("/inicio");
+        // Actualiza el contexto de autenticación con la nueva información del usuario
+        setUser(userCredential.user);
       })
       .catch((error) => {
         alert("Invalid email or password");
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
+        console.log(error.code, error.message);
       });
   };
+  
 
   const onGoogleLogin = (e) => {
     e.preventDefault();
     signInWithPopup(auth, provider)
       .then((result) => {
         // This gives you a Google Access Token. You can use it to access the Google API.
-        navigate("/dashboard");
+        navigate("/inicio");
       })
       .catch((error) => {
         // Handle Errors here.

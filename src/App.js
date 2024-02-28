@@ -5,16 +5,15 @@ import Signup from './page/Signup';
 import Login from './page/Login';
 import Dashboard from './components/Dashboard';
 import Procesos from './components/Procesos';
+import Editarperfil from './perfil/Editarperfil';
+import Configuracion from './perfil/Configuracion';
+import Notificaciones from './perfil/Notificaciones';
+import Inicio from './inicio/Inicio';
+import Rol from './inicio/Rol';
+import FormularioEmpresa from './inicio/FormularioEmpresa';
+import AñadirProcesos from './components/AñadirProcesos';
 
-const PrivateRoute = ({ children }) => {
-  const { user } = useAuth(); // useAuth hook from AuthContext
 
-  if (!user) {
-    return <Navigate to="/login" />;
-  }
-
-  return children;
-};
 
 function App() {
   return (
@@ -24,16 +23,18 @@ function App() {
           <section>
             <Routes>
               <Route path='/' element={<Signup />} />
+              <Route path='/rol' element={<Inicio />} />
+              <Route path='/editar-perfil' element={<Editarperfil />} />
+              <Route path='/notificaciones' element={<Notificaciones />} />     
               <Route path='/login' element={<Login />} />
-              <Route path='/procesos' element={<Procesos />} />
-              <Route 
-                path='/dashboard' 
-                element={
-                  <PrivateRoute>
-                    <Dashboard />
-                  </PrivateRoute>
-                } 
-              />
+              <Route path='/inicio' element={<Rol />} />
+              <Route path='/settings' element={<Configuracion />} />
+              <Route path='/dashboard' element={<Dashboard />}/>
+              <Route path='/procesos' element={<Procesos />}/>
+              <Route path='/empresas' element={<FormularioEmpresa />}/>
+              <Route path='/AñadirProceso' element={<AñadirProcesos />}/>
+
+
             </Routes>
           </section>
         </div>

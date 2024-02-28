@@ -1,48 +1,43 @@
+// Import React and other necessary hooks
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { auth } from './Firebase'; // Adjust the path to your Firebase config
+// Import getAuth and onAuthStateChanged from firebase/auth
+import { onAuthStateChanged } from 'firebase/auth';
+// Import the initialized auth service from your firebase configuration file
+import { auth } from './Firebase'; // Asegúrate de que esta ruta sea correcta
 
-const AuthContext = createContext(null);
+// Create a context for auth
+const AuthContext = createContext();
 
 export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null); // Add an error state
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(
+    const unsubscribe = onAuthStateChanged(auth, 
       (user) => {
         setUser(user);
         setLoading(false);
-        setError(null); // Clear any existing errors on successful auth change
+        setError(null);
       },
       (error) => {
-        console.error("Error in auth state change:", error);
-        setError(error); // Set error state
+        console.error("Error en el cambio de estado de autenticación:", error);
+        setError(error);
         setLoading(false);
       }
     );
 
-    return unsubscribe; // Unsubscribe on unmount
+    // Clean up the subscription on component unmount
+    return unsubscribe;
   }, []);
 
-  if (loading) {
-    return <div>Loading...</div>; // Optionally, replace with a more sophisticated loader
-  }
-
-  const contextValue = {
-    user,
-    setUser,
-    loading,
-    error, // Expose error to context consumers
-  };
+  const value = { user, setUser, loading, error };
 
   return (
-    <AuthContext.Provider value={contextValue}>
-      {children}
+    <AuthContext.Provider value={value}>
+      {loading ? <div>Cargando...</div> : children}
     </AuthContext.Provider>
   );
 };
-
-export default AuthContext;

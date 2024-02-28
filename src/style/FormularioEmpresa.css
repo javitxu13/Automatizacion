@@ -1,0 +1,35 @@
+.input-container {
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+  }
+  
+  .phone-input {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc; /* Ajusta el color del borde según sea necesario */
+    border-radius: 4px; /* Ajusta el radio del borde según sea necesario */
+    padding: 5px;
+  }
+  
+  .phone-input .country-flag {
+    margin-right: 5px;
+  }
+  
+  .phone-input .country-code {
+    margin-right: 10px;
+    color: #555; /* Ajusta el color del texto del código del país según sea necesario */
+  }
+  
+  .phone-input input {
+    border: none;
+    outline: none;
+    padding: 5px;
+    flex-grow: 1; /* Asegura que el input se expanda para llenar el espacio */
+  }
+  
+  /* Estilos para el label */
+  label[for="telefono"] {
+    margin-bottom: 5px;
+  }
+  

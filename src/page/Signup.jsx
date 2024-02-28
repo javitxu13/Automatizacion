@@ -1,126 +1,136 @@
 import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "./Firebase";
 import "../style/Signup.css";
 import DashboardImage from "../img/Gif.gif";
-import GoogleLogo from '../img/Google.png'; // Make sure the path is correct
+import GoogleLogo from '../img/Google.png';
+import MicrosoftLogo from '../img/Microsoft.png';
+import { useAuth } from '../page/AuthContext';
+import { db } from "./Firebase";
+import { collection, addDoc } from "firebase/firestore";
 
 const Signup = () => {
   const navigate = useNavigate();
-  const [name, setName] = useState('');
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [numEmpleados, setNumEmpleados] = useState('');
+  const { setUser } = useAuth();
+  const [isAuthenticating, setIsAuthenticating] = useState(false);
 
   const googleProvider = new GoogleAuthProvider();
 
   const signInWithGoogle = async () => {
+    setIsAuthenticating(true);
     try {
       const res = await signInWithPopup(auth, googleProvider);
       const user = res.user;
-      console.log(user);
-      navigate("/dashboard"); // Or wherever you need to redirect the user
+      setUser({ displayName: user.displayName, email: user.email });
+      navigate("/inicio");
     } catch (error) {
       console.error(error);
       alert(error.message);
+    } finally {
+      setIsAuthenticating(false);
+    }
+  };
+
+
+  const signInWithMicrosoft = async () => {
+    setIsAuthenticating(true);
+    try {
+      const res = await signInWithPopup(auth, googleProvider);
+      const user = res.user;
+      setUser({ displayName: user.displayName, email: user.email });
+      navigate("/inicio");
+    } catch (error) {
+      console.error(error);
+      alert(error.message);
+    } finally {
+      setIsAuthenticating(false);
     }
   };
 
   const onSubmit = async (e) => {
     e.preventDefault();
-
-    await createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        console.log(user);
-        navigate("/dashboard"); // Or wherever you need to redirect the user
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
+    setIsAuthenticating(true);
+  
+    try {
+      await addDoc(collection(db, "registro"), {
+        email: email,
+        numEmpleados: numEmpleados,
       });
-  }
+      navigate("/rol");
+    } catch (error) {
+      console.error("Error adding document: ", error);
+    }
+    
+
+    setIsAuthenticating(false);
+  };
+  
 
   return (
     <div className="container">
-  <aside className="brand-section">
-    <h1>The smart business management software for SMEs.</h1>
-    <p>Holded is the solution in the cloud that has everything you need to manage your business – anytime, anywhere.</p>
-    <div className="image-container">
-      <img src={DashboardImage} alt="Dashboard Preview" className="dashboard-image" />    </div>
-    {/* <div className="language-selector">
-      <label for="language">Language:</label>
-      { <select id="language">
-        <option value="english">English</option>
-      </select> }
-    </div> */}
-  </aside>
-    <main className="signup-main">
-    <section className="signup-section">
-      <div className="signup-container">
-        <h1 className="signup-title">FocusApp</h1>
-          <button type="button" className="google-signup-button" onClick={signInWithGoogle}>
-            <img src={GoogleLogo} alt="Google" className="google-logo" />
-            Regístrame con Google
-          </button>
-
-        <form className="signup-form" onSubmit={onSubmit}>
-
-        <div className="input-group">
-        <label htmlFor='name' className="input-label">Name</label>
-        <input
-          id='name'
-          type='text' // Change the type to "text" for a name input
-          value={name} // Make sure you have a 'name' state variable
-          onChange={(e) => setName(e.target.value)} // Update the setter function to setName
-          required
-          placeholder='Name' // Update the placeholder
-          className="input-field"
-        />
-      </div>
-
-          <div className="input-group">
-            <label htmlFor='email-address' className="input-label">Email address</label>
-            <input
-              id='email-address'
-              type='email'
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              placeholder='Email address'
-              className="input-field"
-            />
+      <aside className="brand-section">
+        <h1>The smart business management software for SMEs.</h1>
+        <p>Holded is the solution in the cloud that has everything you need to manage your business – anytime, anywhere.</p>
+        <div className="image-container">
+          <img src={DashboardImage} alt="Dashboard Preview" className="dashboard-image" />
+        </div>
+      </aside>
+      <main className="signup-main">
+        <section className="signup-section">
+          <div className="signup-container">
+            <h1 className="signup-title">FocusApp</h1>
+            <button type="button" className="google-signup-button" onClick={signInWithGoogle}>
+              <img src={GoogleLogo} alt="Google" className="google-logo" />
+              Continuar con Google
+            </button>
+            <button type="button" className="google-signup-button" onClick={signInWithMicrosoft}>
+              <img src={MicrosoftLogo} alt="Google" className="google-logo" />
+              Continuar con Microsoft
+            </button>
+            <form className="signup-form" onSubmit={onSubmit}>
+              <div className="input-group">
+                <label htmlFor='numEmpleados' className="input-label">Número de empleados</label>
+                <select
+                  id='numEmpleados'
+                  value={numEmpleados}
+                  onChange={(e) => setNumEmpleados(e.target.value)}
+                  required
+                  className="input-field"
+                >
+                  <option value="">Seleccione rango...</option>
+                  <option value="1-50">1-50</option>
+                  <option value="51-100">51-100</option>
+                  <option value="101-300">101-300</option>
+                  <option value="301-500">301-500</option>
+                  <option value="500+">+500</option>
+                </select>
+              </div>
+              <div className="input-group">
+                <label htmlFor='email-address' className="input-label">Correo electrónico empresa</label>
+                <input
+                  id='email-address'
+                  type='email'
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  placeholder='Email address'
+                  className="input-field"
+                />
+              </div>
+              <button type='submit' className="signup-button" disabled={isAuthenticating}>
+                Continuar
+              </button>
+            </form>
+            <p className="signin-prompt">
+              Already have an account? <NavLink to='/login' className="signin-link">Login</NavLink>
+            </p>
           </div>
-  
-          <div className="input-group">
-            <label htmlFor='password' className="input-label">Password</label>
-            <input
-              id='password'
-              type='password'
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              placeholder='Password'
-              className="input-field"
-            />
-          </div>
-  
-          <button type='submit' className="signup-button">
-            Sign up
-          </button>
-        </form>
-       
-
-  
-        <p className="signin-prompt">
-          Already have an account? <NavLink to='/login' className="signin-link">Login</NavLink>
-        </p>
-      </div>
-    </section>
-  </main>  
-  </div>
+        </section>
+      </main>  
+    </div>
   );
 };
 

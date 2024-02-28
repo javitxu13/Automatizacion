@@ -28,5 +28,6 @@ const provider = new GoogleAuthProvider();
 
 // Initialize Firestore and get a reference to the service
 const db = getFirestore(app);
+
 // Export the Firebase services for use in your components
 export { app, db, auth, storage, provider };

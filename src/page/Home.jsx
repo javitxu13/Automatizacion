@@ -1,78 +1,83 @@
-import React, { useState, useContext, useRef } from "react";
-import { signOut, updateProfile } from "firebase/auth";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { auth, storage } from "./Firebase";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { signOut, onAuthStateChanged } from "firebase/auth";
+import { useNavigate, Link } from "react-router-dom";
+import { getDoc, doc } from 'firebase/firestore';
+import { auth, db } from "./Firebase"; // Asegúrate de que estas son tus rutas correctas
+import { useAuth } from './AuthContext';
+import Notificaciones from '../perfil/Notificaciones';
 import './../style/Home.css';
-import AuthContext from './AuthContext';
 
 const Home = () => {
-  const { user, setUser } = useContext(AuthContext);
+  const { user } = useAuth();
   const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const fileInputRef = useRef();
+  const [profileImageUrl, setProfileImageUrl] = useState("default-profile.png");
+  const [nombre, setNombre] = useState('');
+  const [apellido, setApellido] = useState('');
+
+  useEffect(() => {
+    if (user?.photoURL) {
+      setProfileImageUrl(user.photoURL);
+    }
+  }, [user]); // Este efecto se ejecuta cada vez que 'user' cambia.
+
+  useEffect(() => {
+    if (auth.currentUser) {
+      const userRef = doc(db, "usuarios", auth.currentUser.uid);
+      getDoc(userRef).then(docSnap => {
+        if (docSnap.exists()) {
+          console.log("Datos del documento:", docSnap.data());
+          setNombre(docSnap.data().nombre);
+          setApellido(docSnap.data().apellidos);
+        } else {
+          console.log("No se encontró el documento!");
+        }
+      }).catch(error => {
+        console.error("Error al obtener el documento:", error);
+      });
+    }
+  }, [auth.currentUser]); // Si dependes del estado de 'auth.currentUser', añádelo aquí. Si no cambia, este efecto solo se ejecutará una vez.
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, currentUser => {
+      if (!currentUser) {
+        navigate("/dashboard");
+      }
+    });
+
+    return () => unsubscribe(); // Limpia el listener cuando el componente se desmonte.
+  }, []); // Sin dependencias, este efecto se ejecuta solo al montar y desmontar el componente.
 
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      setUser(null);
       navigate("/");
     } catch (error) {
-      alert("Logout failed. Please try again.");
+      console.error("Error al cerrar sesión:", error);
     }
   };
 
-  const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-  };
-
-  const profileImageUrl = user ? user.photoURL : "default-profile.png";
-
-  const handleProfilePictureClick = () => {
-    fileInputRef.current.click();
-  };
-
-  const handleFileChange = async (event) => {
-    const file = event.target.files[0];
-    if (!file) {
-      return;
-    }
-
-    const storageRef = ref(storage, `profilePictures/${user.uid}/${file.name}`);
-    try {
-      const snapshot = await uploadBytes(storageRef, file);
-      const photoURL = await getDownloadURL(snapshot.ref);
-
-      await updateProfile(auth.currentUser, { photoURL });
-      setUser({ ...user, photoURL }); // Actualiza el estado local del usuario
-
-    } catch (error) {
-      console.error("Error al cargar la imagen:", error);
-      alert("Error al cargar la imagen. Por favor, inténtalo de nuevo.");
-    }
-  };
+  const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
   return (
     <nav className="home-container">
       <div className="user-info">
-        <p className="user-name">{user ? user.displayName || user.email : "Guest"}</p>
-        <div className="profile-section" onClick={toggleDropdown}>
+        <Notificaciones />
+        <p className="user-name">{`${nombre} ${apellido}`}</p>
+        <div className="profile-section" onClick={toggleDropdown} role="button" tabIndex="0">
           {user && (
-            <div className="profile-image-container" onClick={handleProfilePictureClick}>
-              <img src={profileImageUrl} alt="Profile" className="profile-image" />
-              <input type="file" ref={fileInputRef} onChange={handleFileChange} style={{ display: 'none' }} />
+            <div className="profile-image-container">
+              <img src={profileImageUrl} alt="Perfil del Usuario" className="profile-image" />
             </div>
           )}
-          <div className="dropdown-arrow">&#9662;</div>
         </div>
       </div>
-
       {isDropdownOpen && (
         <div className="dropdown-menu">
-          <a href="/profile" onClick={toggleDropdown}>Perfil</a>
-          <a href="/settings" onClick={toggleDropdown}>Configuracion</a>
-          <a href="/plan" onClick={toggleDropdown}>Plan</a>
-          <a href="/" onClick={handleLogout}>Cerrar Sesión</a>
+          <Link to="/editar-perfil">Editar Perfil</Link>
+          <Link to="/settings" onClick={toggleDropdown}>Configuración</Link>
+          <Link to="/plan" onClick={toggleDropdown}>Plan</Link>
+          <button onClick={handleLogout}>Cerrar Sesión</button>
         </div>
       )}
     </nav>
