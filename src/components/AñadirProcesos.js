@@ -25,7 +25,9 @@ const AñadirProceso = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(proceso);
-    navigate('/procesos', { state: proceso });  };
+    navigate('/procesos', { state: { proceso: proceso } });
+  }; // Esta llave cierra correctamente la función handleSubmit
+  
 
   return (
     <form onSubmit={handleSubmit}>
