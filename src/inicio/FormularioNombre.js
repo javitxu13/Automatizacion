@@ -53,7 +53,7 @@ const FormularioNombre = ({ onNext }) => {
         console.log("Nombre y apellido actualizados en el perfil de autenticación");
       }
 
-      navigate('/empresas'); // Redirige al usuario
+      navigate('/rol'); // Redirige al usuario
   } catch (error) {
     console.error("Error: ", error);
     alert("Ocurrió un error. Por favor, intenta de nuevo.");

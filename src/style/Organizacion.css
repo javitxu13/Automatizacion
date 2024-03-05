@@ -1,0 +1,91 @@
+/* Organizacion.css */
+
+.organizaciones {
+  background-color: #f5f5f5;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 950px; /* Ajusta al ancho preferido */
+  margin: 40px auto; /* Centra el contenedor con espacio superior */
+  font-family: 'Arial', sans-serif;
+  position: relative; /* Para el posicionamiento absoluto del botón de nuevo departamento */
+}
+
+.organizaciones h1 {
+  color: #333;
+  text-align: center;
+  margin-bottom: 20px;
+  padding-top: 20px; /* Espacio para el botón de nuevo departamento */
+}
+
+.agregar-departamento {
+  background-color: #4CAF50; /* Verde */
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 8px;
+  position: absolute; /* Posicionamiento absoluto */
+  top: 0;
+  right: 0; /* A la derecha del contenedor */
+}
+
+.departamento-list {
+  display: flex;
+  flex-wrap: wrap; /* Permite que los elementos pasen a la siguiente fila si no hay espacio */
+  gap: 10px; /* Espacio entre tarjetas de departamento */
+  justify-content: flex-start; /* Alinea los elementos al inicio del contenedor (izquierda) */
+}
+
+.departamento {
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  width: 200px; /* Ancho fijo para todas las tarjetas */
+  margin-top: 50px; /* Espacio adicional para el botón de nuevo departamento */
+}
+
+.departamento h2 {
+  color: #333;
+  border-bottom: 2px solid #eee; /* Línea debajo del título del departamento */
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  margin: 5px 0;
+  position: relative; /* Para posicionar absolutamente el botón de eliminar */
+}
+
+.agregar-colaborador, .eliminar-colaborador {
+  border: none;
+  background-color: #FFC107; /* Amarillo para +, rojo para - */
+  color: white;
+  padding: 5px 8px;
+  border-radius: 50%; /* Botones circulares */
+  cursor: pointer;
+  font-weight: bold;
+  margin-left: 5px; /* Espacio a la izquierda del botón */
+}
+
+.eliminar-colaborador {
+  background-color: #F44336; /* Rojo */
+  position: absolute; /* Posicionar el botón a la derecha del nombre */
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Añadir transiciones suaves a los botones al interactuar */
+.agregar-colaborador:hover, .eliminar-colaborador:hover {
+  opacity: 0.8;
+}

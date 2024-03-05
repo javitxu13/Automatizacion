@@ -59,7 +59,7 @@ const Signup = () => {
         email: email,
         numEmpleados: numEmpleados,
       });
-      navigate("/rol");
+      navigate("/nombre");
     } catch (error) {
       console.error("Error adding document: ", error);
     }

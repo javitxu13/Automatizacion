@@ -1,0 +1,92 @@
+/* Header */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: #f8f8f8; /* Adjust background-color to match your design */
+  }
+  
+  .logo {
+    font-size: 2rem;
+    font-weight: bold;
+  }
+  
+  .navigation ul {
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .navigation li {
+    padding: 0.5rem 1rem;
+  }
+  
+  .navigation .register-button {
+    background-color: #ff4500; /* Adjust the button color to match your design */
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+  }
+  
+  /* Hero Section */
+  .hero-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem;
+    background-color: #eeeeee; /* Adjust background-color to match your design */
+  }
+  
+  .hero-content {
+    flex: 1;
+  }
+  
+  .hero-video {
+    flex: 1;
+  }
+  
+  /* Features Section */
+  .features-section {
+    padding: 2rem;
+  }
+  
+  .features {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+  
+  .feature {
+    margin: 1rem;
+    padding: 1rem;
+    background-color: #fff; /* Adjust background-color to match your design */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Optional: Adds shadow to the feature cards */
+    flex-basis: 30%; /* Adjust basis to control card width */
+  }
+  
+  /* Media Query for smaller screens */
+  @media (max-width: 768px) {
+    .navigation ul {
+      display: none; /* Hide navigation on smaller screens, replace with a burger icon */
+    }
+  
+    .hero-section {
+      flex-direction: column;
+    }
+  
+    .features {
+      flex-direction: column;
+    }
+  
+    .feature {
+      flex-basis: 100%; /* Full width on small screens */
+    }
+  }
+  
+  /* Additional styles for your links, buttons, and other elements would go here. */
+  
+  /* Don't forget to add transitions or animations to spice up the interactivity! */
