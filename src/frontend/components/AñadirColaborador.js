@@ -61,9 +61,7 @@ const AñadirColaboradores = () => {
                         disabled={formData.cargando}
                     />
                 </label>
-                <button type="submit" disabled={formData.cargando || !isValidForm()}>
-                {formData.cargando ? 'Añadiendo...' : 'Añadir Colaborador'}
-                </button>
+           
 
             </form>
             {formData.error && <p className="error">{formData.error}</p>}
