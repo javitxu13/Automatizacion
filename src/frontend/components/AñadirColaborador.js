@@ -3,21 +3,21 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { DepartamentoContext } from './DepartamentoContext';
 
 const AñadirColaboradores = () => {
+    const { onAgregarEmpleadoADepartamento } = useContext(DepartamentoContext);
     const [formData, setFormData] = useState({
         nombre: '',
         error: '',
         cargando: false,
     });
-    const { onAgregarEmpleadoADepartamento, departamentos } = useContext(DepartamentoContext);
     const navigate = useNavigate();
     const location = useLocation();
-    const departamentoSeleccionado = location.state?.departamentoId;
+    const departamentoId = location.state?.departamentoId;
 
     useEffect(() => {
-        if (!departamentoSeleccionado || !departamentos.length) {
-            setFormData(prev => ({ ...prev, error: 'No se ha seleccionado un departamento válido o no hay departamentos cargados.' }));
+        if (!departamentoId) {
+            setFormData(prev => ({ ...prev, error: 'No se ha seleccionado un departamento válido.' }));
         }
-    }, [departamentoSeleccionado, departamentos]);
+    }, [departamentoId]);
 
     const isValidForm = () => formData.nombre.trim().length > 0;
 
@@ -30,16 +30,8 @@ const AñadirColaboradores = () => {
         setFormData(prev => ({ ...prev, cargando: true }));
 
         try {
-            const response = await fetch('http://localhost:5009/api/colaboradores', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ nombre: formData.nombre, departamentoId: departamentoSeleccionado }),
-            });
-            if (!response.ok) {
-                throw new Error(`Error en la respuesta: ${response.status}`);
-            }
-            const nuevoColaborador = await response.json();
-            onAgregarEmpleadoADepartamento(departamentoSeleccionado, nuevoColaborador);
+            const nuevoColaborador = { nombre: formData.nombre }; // Simulando la creación del colaborador
+            onAgregarEmpleadoADepartamento(departamentoId, nuevoColaborador);
             alert('Colaborador añadido con éxito');
             navigate('/organizacion');
         } catch (error) {
@@ -61,7 +53,9 @@ const AñadirColaboradores = () => {
                         disabled={formData.cargando}
                     />
                 </label>
-           
+                <button type="submit" disabled={formData.cargando || !isValidForm()}>
+                {formData.cargando ? 'Añadiendo...' : 'Añadir Colaborador'}
+                </button>
 
             </form>
             {formData.error && <p className="error">{formData.error}</p>}
