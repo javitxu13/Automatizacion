@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
-import { db } from '../page/Firebase';
+import axios from 'axios'; // Asegúrate de instalar axios con npm o yarn
+
 
 const CheckoutForm = ({ product }) => {
   const stripe = useStripe();
@@ -62,9 +63,8 @@ const CheckoutForm = ({ product }) => {
 
       if (result.paymentIntent && result.paymentIntent.status === 'succeeded') {
         console.log('[PaymentIntent]', result.paymentIntent);
-        await savePaymentDetailsToFirestore(result.paymentIntent);
-        setPaymentSuccess(true); // Indicar que el pago fue exitoso
-        // Opcional: Redireccionar al usuario o mostrar un mensaje de éxito aquí
+        await savePaymentDetailsToMongoDB(result.paymentIntent); // Utiliza la nueva función aquí
+        setPaymentSuccess(true);
       }
     } catch (error) {
       console.error('[error]', error);
@@ -74,7 +74,7 @@ const CheckoutForm = ({ product }) => {
     }
   };
 
-  const savePaymentDetailsToFirestore = async (paymentIntent) => {
+  const savePaymentDetailsToMongoDB = async (paymentIntent) => {
     try {
       const paymentDoc = {
         id: paymentIntent.id,
@@ -83,9 +83,10 @@ const CheckoutForm = ({ product }) => {
         currency: paymentIntent.currency,
         status: paymentIntent.status,
       };
-      await db.collection('payments').doc(paymentIntent.id).set(paymentDoc);
+      // Asume que tienes una ruta '/api/payments' configurada en tu servidor para manejar esta solicitud
+      await axios.post('/api/payments', paymentDoc);
     } catch (error) {
-      console.error('Error saving payment details to Firestore:', error);
+      console.error('Error saving payment details:', error);
       setError('Error saving payment details. Please contact support.');
     }
   };

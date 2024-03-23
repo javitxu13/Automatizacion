@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import './../style/Navbar.css';
+import '../../frontend/style/Navbar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faFileAlt, faCogs, faSitemap /* Import additional icons here */ } from '@fortawesome/free-solid-svg-icons';
 function Navbar() {

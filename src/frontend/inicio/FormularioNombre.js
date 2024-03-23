@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Importa useNavigate
-import { db,auth } from '../page/Firebase'; // Asegúrate de que esta es tu ruta correcta
-import { collection, addDoc } from 'firebase/firestore';
-import { updateProfile } from "firebase/auth";
 
 const FormularioNombre = ({ onNext }) => {
   const [nombre, setNombre] = useState('');
@@ -38,30 +35,33 @@ const FormularioNombre = ({ onNext }) => {
     setIsLoading(true);
   
     try {
-      const docRef = await addDoc(collection(db, "usuarios"), {
-        nombre,
-        apellidos,
-        rol,
+      const response = await fetch('http://localhost:5009/api/usuarios', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ nombre, apellidos, rol }),
       });
-  
-      console.log("Documento escrito con ID: ", docRef.id);
-  
-      if (auth.currentUser) {
-        await updateProfile(auth.currentUser, {
-          displayName: `${nombre} ${apellidos}`,
-        });
-        console.log("Nombre y apellido actualizados en el perfil de autenticación");
-      }
 
-      navigate('/rol'); // Redirige al usuario
-  } catch (error) {
-    console.error("Error: ", error);
-    alert("Ocurrió un error. Por favor, intenta de nuevo.");
-  } finally {
-    setIsLoading(false); // Finaliza la carga
-  }
-};
-  
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.mensaje);
+      }
+      
+      const usuario = await response.json();
+      console.log("Usuario creado con éxito:", usuario);
+      
+      // Redirige al usuario
+      navigate('/empresas');
+    } catch (error) {
+      console.error("Error al crear usuario:", error);
+      alert(error.message || "Ocurrió un error. Por favor, intenta de nuevo.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+
   return (
     <form onSubmit={handleSubmit}>
       <label htmlFor="nombre">
