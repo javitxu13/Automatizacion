@@ -45,14 +45,6 @@ const Organizacion = () => {
     navigate('/añadir-departamento');
   };
 
-  // Nota: Esta función esqueleto ahora está aquí para propósitos de demostración
-  // En práctica, deberías implementarla correctamente cuando vayas a usarla
-  const agregarEmpleadoADepartamento = (departamentoId, empleadoId) => {
-    console.log(`Agregar empleado ${empleadoId} al departamento ${departamentoId}`);
-    // onAgregarEmpleadoADepartamento(departamentoId, empleadoId);
-    // Implementar lógica para agregar el empleado al departamento aquí
-  };
-
   const agregarColaborador = (nombreDepartamento, departamentoId) => {
   navigate('/añadir-colaborador', { state: { departamento: nombreDepartamento, departamentoId: departamentoId } });
   };

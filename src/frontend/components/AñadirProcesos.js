@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../style/Añadirprocesos.css';
 
-
 const AñadirProceso = () => {
   const navigate = useNavigate();
   const [proceso, setProceso] = useState({
@@ -12,31 +11,45 @@ const AñadirProceso = () => {
     herramientas: '',
     responsable: '',
     colaboradores: '',
-    objetivo: ''
+    objetivo: '',
   });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+  const handleChange = ({ target: { name, value } }) =>
     setProceso((prevProceso) => ({
       ...prevProceso,
-      [name]: value
+      [name]: value,
     }));
-  };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-  
-    // Obtén la lista actual de procesos del localStorage
-    const procesosActuales = JSON.parse(localStorage.getItem('procesos')) || [];
-  
-    // Añade el nuevo proceso a la lista
-    const nuevosProcesos = [...procesosActuales, proceso];
-    localStorage.setItem('procesos', JSON.stringify(nuevosProcesos));
-  
-    // Navega de vuelta a la lista de procesos
-    navigate('/procesos');
+
+    // Validación básica
+    if (!proceso.nombre || !proceso.tipo || !proceso.departamento || !proceso.responsable) {
+      alert('Por favor, completa todos los campos requeridos.');
+      return;
+    }
+
+    try {
+      const response = await fetch('http://localhost:5009/api/procesos', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(proceso),
+      });
+
+      if (response.ok) {
+        alert('Proceso añadido con éxito');
+        navigate('/procesos');
+      } else {
+        const errorData = await response.json();
+        alert(`Error al guardar el proceso: ${errorData.message}`);
+      }
+    } catch (error) {
+      console.error('Error saving the process:', error);
+      alert('Error al guardar el proceso.');
+    }
   };
-  
 
   return (
     <form onSubmit={handleSubmit} className="proceso-form">

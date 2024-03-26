@@ -30,14 +30,11 @@ const AñadirColaboradores = () => {
         setFormData(prev => ({ ...prev, cargando: true }));
 
         try {
-            const nuevoColaborador = { nombre: formData.nombre }; // Simulando la creación del colaborador
-            onAgregarEmpleadoADepartamento(departamentoId, nuevoColaborador);
+            await onAgregarEmpleadoADepartamento(departamentoId, { nombre: formData.nombre });
             alert('Colaborador añadido con éxito');
             navigate('/organizacion');
         } catch (error) {
-            setFormData(prev => ({ ...prev, error: `Hubo un problema al añadir el colaborador: ${error.message}` }));
-        } finally {
-            setFormData(prev => ({ ...prev, cargando: false, nombre: '' }));
+            setFormData(prev => ({ ...prev, error: `Hubo un problema al añadir el colaborador: ${error.message}`, cargando: false }));
         }
     };
 
