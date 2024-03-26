@@ -25,10 +25,11 @@ const Procesos = () => {
   }, []);
 
   const handleAddProcesoClick = () => navigate('/AñadirProceso');
-  
+
   return (
     <div className="procesos-container">
-      <button className="procesos-btn-add" onClick={handleAddProcesoClick}>Añadir Proceso</button>      {procesosGuardados.length > 0 ? (
+      <button className="procesos-btn-add" onClick={handleAddProcesoClick}>Añadir Proceso</button>
+      {procesosGuardados.length > 0 ? (
         <div className="procesos-table-container">
           <table className="procesos-table">
             <thead>
@@ -47,9 +48,9 @@ const Procesos = () => {
                 <tr key={index}>
                   <td>{proceso.nombre}</td>
                   <td>{proceso.tipo}</td>
-                  <td>{proceso.departamento}</td>
+                  <td>{proceso.departamento || 'No especificado'}</td>
                   <td>{proceso.herramientas}</td>
-                  <td>{proceso.responsable}</td>
+                  <td>{proceso.responsable || 'No asignado'}</td>
                   <td>{proceso.colaboradores}</td>
                   <td>{proceso.objetivo}</td>
                 </tr>

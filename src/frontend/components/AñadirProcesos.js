@@ -7,9 +7,9 @@ const AñadirProceso = () => {
   const [proceso, setProceso] = useState({
     nombre: '',
     tipo: '',
-    departamento: '',
+    departamento: '', // No obligatorio
     herramientas: '',
-    responsable: '',
+    responsable: '', // No obligatorio
     colaboradores: '',
     objetivo: '',
   });
@@ -23,8 +23,8 @@ const AñadirProceso = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validación básica
-    if (!proceso.nombre || !proceso.tipo || !proceso.departamento || !proceso.responsable) {
+    // Validación básica ajustada
+    if (!proceso.nombre || !proceso.tipo || !proceso.herramientas) {
       alert('Por favor, completa todos los campos requeridos.');
       return;
     }
@@ -50,6 +50,7 @@ const AñadirProceso = () => {
       alert('Error al guardar el proceso.');
     }
   };
+
 
   return (
     <form onSubmit={handleSubmit} className="proceso-form">
