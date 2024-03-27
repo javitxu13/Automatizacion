@@ -6,7 +6,7 @@ const AnadirDepartamento = () => {
   const [nombre, setNombre] = useState('');
   const { cargarDepartamentos } = useContext(DepartamentoContext);
   const navigate = useNavigate();
-
+//gay
   const handleSubmit = async (e) => {
     e.preventDefault();
     const nuevoDepartamento = { nombre };
