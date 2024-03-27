@@ -1,4 +1,4 @@
-// controllers/paymentController.js
+/* // controllers/paymentController.js
 const Payment = require('../models/Payment');
 
 exports.savePaymentDetails = async (req, res) => {
@@ -11,3 +11,4 @@ exports.savePaymentDetails = async (req, res) => {
     res.status(500).send({ message: 'Failed to save payment details', error: error.message });
   }
 };
+ */

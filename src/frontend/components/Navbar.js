@@ -24,7 +24,7 @@ function Navbar() {
                 <span className="nav-text">Procesos</span>
             </Link>
 
-            <Link to="/organizacion" className="nav-link" onClick={() => setIsNavExpanded(false)}>
+            <Link to="/departamentos" className="nav-link" onClick={() => setIsNavExpanded(false)}>
                 <FontAwesomeIcon icon={faSitemap} className="icon-contact" />
                 <span className="nav-text">Organización</span> 
             </Link>

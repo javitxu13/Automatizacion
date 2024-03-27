@@ -5,11 +5,12 @@ const mongoose = require('mongoose');
 
 const app = express();
 
+
 app.use(express.json());
 app.use(cors());
 
 // Importación de rutas
-const paymentRoutes = require('./routes/paymentRoutes');
+//const paymentRoutes = require('./routes/paymentRoutes');
 const loginRoutes = require('./routes/loginRoutes');
 const registerRoutes = require('./routes/registerRoutes');
 const empresaRoutes = require('./routes/empresaRoutes');
@@ -28,7 +29,7 @@ mongoose.connect(process.env.MONGO_URI, { authSource: 'admin' })
 // Definición de rutas
 app.use('/api/login', loginRoutes);
 app.use('/api/register', registerRoutes);
-app.use('/api/payment', paymentRoutes);
+//app.use('/api/payment', paymentRoutes);
 app.use('/api/empresa', empresaRoutes);
 app.use('/api/usuarios', nombreRoutes);
 app.use('/api/rol', rolRoutes);
@@ -36,7 +37,9 @@ app.use('/api/procesos', procesoRoutes);
 app.use('/api/departamentos', departamentoRoutes);
 app.use('/api/colaboradores', colaboradoresRoutes);
 
-
+app.get('/', (req, res) => {
+  res.send('El servidor está corriendo correctamente.');
+});
 // Manejo centralizado de errores
 app.use((err, req, res, next) => {
   console.error(err.stack);

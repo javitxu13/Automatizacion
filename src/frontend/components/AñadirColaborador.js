@@ -1,16 +1,16 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { DepartamentoContext } from './DepartamentoContext'; // Asegúrate de tener la ruta correcta
+import { DepartamentoContext } from './DepartamentoContext';
 
 const useForm = (initialValues) => {
-  const [values, setValues] = useState(initialValues);
+    const [values, setValues] = useState(initialValues);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setValues({ ...values, [name]: value });
-  };
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setValues({ ...values, [name]: value });
+    };
 
-  return [values, handleChange, setValues];
+    return [values, handleChange, setValues];
 };
 
 const AñadirColaboradores = () => {
@@ -18,7 +18,7 @@ const AñadirColaboradores = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const { departamentoId } = location.state || {};
-    const { onAgregarColaborador } = useContext(DepartamentoContext); // Asumiendo que esta función está implementada
+    const { onAgregarColaborador } = useContext(DepartamentoContext);
 
     useEffect(() => {
         if (!departamentoId) {
@@ -30,41 +30,52 @@ const AñadirColaboradores = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         if (!isValidForm()) {
-            setFormData(prev => ({ ...prev, error: 'Por favor, ingrese un nombre válido para el colaborador.', mensajeExito: '' }));
+            setFormData(prev => ({ ...prev, error: 'Por favor, ingresa todos los campos requeridos.' }));
             return;
         }
-        setFormData(prev => ({ ...prev, cargando: true }));
-    
-        // Asegúrate de que onAgregarColaborador maneje correctamente el departamentoId
-        const result = await onAgregarColaborador(formData.nombre, departamentoId); // Asegúrate de que esta función sea asíncrona si hace una llamada al backend
+
+        setFormData(prev => ({ ...prev, cargando: true, error: '', mensajeExito: '' }));
         
-        if (result) {
-            setFormData({ nombre: '', error: '', cargando: false, mensajeExito: 'Colaborador añadido con éxito' });
-            setTimeout(() => navigate('/organizacion'), 2000);
-        } else {
-            setFormData(prev => ({ ...prev, error: 'Error al añadir colaborador', cargando: false, mensajeExito: '' }));
+        try {
+            const response = await fetch('http://localhost:5009/api/colaboradores', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ nombre: formData.nombre, departamentoId }),
+            });
+    
+            if (!response.ok) throw new Error('Error al añadir el colaborador');
+    
+            setFormData({ nombre: '', error: '', cargando: false, mensajeExito: 'Colaborador añadido con éxito.' });
+            setTimeout(() => navigate('/departamentos'), 2000); // Redirige después de mostrar mensaje de éxito
+        } catch (error) {
+            setFormData(prev => ({ ...prev, cargando: false, error: error.message }));
         }
     };
-    
+
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
-                <label>
+        <div className="añadir-colaborador-container">
+            <form onSubmit={handleSubmit} className="añadir-colaborador-form">
+                <label htmlFor="nombre">
                     Nombre del Colaborador:
                     <input
+                        id="nombre"
                         type="text"
                         name="nombre"
                         value={formData.nombre}
                         onChange={handleChange}
                         disabled={formData.cargando}
+                        className={formData.error && 'input-error'}
                     />
                 </label>
-                <button type="submit" disabled={formData.cargando || !isValidForm()}>
+                <button type="submit" disabled={formData.cargando || !isValidForm()} className="submit-button">
                     {formData.cargando ? 'Añadiendo...' : 'Añadir Colaborador'}
                 </button>
-                {formData.error && <p className="error">{formData.error}</p>}
-                {formData.mensajeExito && <p className="success">{formData.mensajeExito}</p>}
+                {formData.error && <p className="error-message">{formData.error}</p>}
+                {formData.mensajeExito && <p className="success-message">{formData.mensajeExito}</p>}
             </form>
         </div>
     );

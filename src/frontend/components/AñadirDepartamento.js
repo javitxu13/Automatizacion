@@ -25,7 +25,7 @@ const AnadirDepartamento = () => {
         cargarDepartamentos(departamentoAgregado);
 
         // Redirige al usuario a la página de organización después de agregar con éxito
-        navigate('/organizacion');
+        navigate('/departamentos');
       } else {
         console.error('Error al añadir el departamento');
       }

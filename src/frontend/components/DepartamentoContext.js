@@ -11,7 +11,6 @@ export const DepartamentoProvider = ({ children }) => {
   });
 
   const cargarDepartamentos = useCallback((datos) => {
-    // Si los datos son un array, asume que es una carga inicial
     if (Array.isArray(datos)) {
       const nuevosDepartamentos = datos.reduce((acc, { nombre, empleados = [] }) => ({
         ...acc,
@@ -19,12 +18,10 @@ export const DepartamentoProvider = ({ children }) => {
       }), {});
       setDepartamentos(nuevosDepartamentos);
     } else {
-      // Si los datos no son un array, asume que se está añadiendo un nuevo departamento
       const { nombre, empleados = [] } = datos;
       setDepartamentos(prev => ({ ...prev, [nombre]: empleados }));
     }
   }, []);
-  
 
   const onAgregarColaborador = useCallback((nombreColaborador, departamentoId) => {
     if (!departamentoId || !departamentos[departamentoId]) return false;
@@ -56,7 +53,7 @@ export const DepartamentoProvider = ({ children }) => {
     onAgregarDepartamento,
     onEliminarEmpleadoDeDepartamento,
     cargarDepartamentos,
-    onAgregarColaborador
+    onAgregarColaborador,
   };
 
   return (

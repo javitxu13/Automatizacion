@@ -9,8 +9,7 @@ function Dashboard() {
             <Home />
 
             <div className="dashboard-content">
-                <h1>Dashboard</h1>
-                <p>Welcome to your dashboard.</p>
+              
             </div>
         </div>
     );

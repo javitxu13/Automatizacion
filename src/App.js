@@ -12,7 +12,7 @@ import Login from './frontend/page/Login';
 import Dashboard from './frontend/components/Dashboard';
 import Procesos from './frontend/components/Procesos';
 import AñadirProcesos from './frontend/components/AñadirProcesos';
-import {Organizacion} from './frontend/components/Organizacion';
+import {Departamentos} from './frontend/components/Departamentos';
 import AñadirDepartamento from './frontend/components/AñadirDepartamento';
 import AñadirColaborador from './frontend/components/AñadirColaborador';
 import Editarperfil from './frontend/perfil/Editarperfil';
@@ -37,7 +37,7 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/procesos" element={<Procesos />} />
             <Route path="/Añadirproceso" element={<AñadirProcesos />} />
-            <Route path="/organizacion" element={<Organizacion />} />
+            <Route path="/departamentos" element={<Departamentos />} />
             <Route path="/añadir-departamento" element={<AñadirDepartamento />} />
             <Route path="/añadir-colaborador" element={<AñadirColaborador />} />
             <Route path="/rol" element={<Rol />} />

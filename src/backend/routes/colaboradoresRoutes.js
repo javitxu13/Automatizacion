@@ -1,7 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const colaboradorController = require('../controllers/colaboradoresController');
+const colaboradoresController = require('../controllers/colaboradoresController');
 
-router.post('/', colaboradorController.agregarColaborador);
+// Ruta para crear un nuevo colaborador
+router.post('/', colaboradoresController.createColaborador);
+
+// Ruta para obtener todos los colaboradores
+router.get('/', colaboradoresController.getColaboradores);
 
 module.exports = router;
